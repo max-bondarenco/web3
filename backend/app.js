@@ -8,9 +8,7 @@ import { calculate } from './controllers/calculate.controller.js'
 const app = express()
 
 app.use(express.json())
-app.use(
-    cors({ origin: ['http://localhost:5173', 'https://calc-web2.netlify.app'] })
-)
+app.use(cors({ origin: ['http://localhost:5173'] }))
 
 app.use('/api/calculate', calculate)
 

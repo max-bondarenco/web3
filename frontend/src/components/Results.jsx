@@ -1,45 +1,77 @@
 import { object } from 'prop-types'
+import ResultItem from './ResultItem'
 
 const Results = ({ data }) => {
     return (
         <div className="outputs">
             <div className="output">
-                <h2>При спалюванні вугілля</h2>
-                <div>
-                    <label htmlFor="coal_k">
-                        Показник емісії твердих частинок (г/ГДж):
-                    </label>
-                    <input defaultValue={data?.coal_k} disabled id="coal_k" />
-                </div>
-                <div>
-                    <label htmlFor="coal_E">Валовий викид (т):</label>
-                    <input defaultValue={data?.coal_E} disabled id="coal_E" />
-                </div>
+                <h2>Розрахункові струми на першому рівні електропостачання</h2>
+                <ResultItem
+                    name="grinder"
+                    value={data?.Is?.grinder.toFixed(2)}
+                />
+                <ResultItem
+                    name="driller"
+                    value={data?.Is?.driller.toFixed(2)}
+                />
+                <ResultItem
+                    name="grouter"
+                    value={data?.Is?.grouter.toFixed(2)}
+                />
+                <ResultItem name="saw" value={data?.Is?.saw.toFixed(2)} />
+                <ResultItem name="press" value={data?.Is?.press.toFixed(2)} />
+                <ResultItem
+                    name="polisher"
+                    value={data?.Is?.polisher.toFixed(2)}
+                />
+                <ResultItem name="shaper" value={data?.Is?.shaper.toFixed(2)} />
+                <ResultItem name="fan" value={data?.Is?.fan.toFixed(2)} />
             </div>
             <div className="output">
-                <h2>При спалюванні мазуту</h2>
+                <h2>Результати для ШР</h2>
                 <div>
-                    <label htmlFor="oil_k">
-                        Показник емісії твердих частинок (г/ГДж):
+                    <label htmlFor="Ku">
+                        Груповий коефіцієнт використання:
                     </label>
-                    <input defaultValue={data?.oil_k} disabled id="oil_k" />
+                    <input
+                        defaultValue={data?.Ku.toFixed(2)}
+                        disabled
+                        id="Ku"
+                    />
                 </div>
                 <div>
-                    <label htmlFor="oil_E">Валовий викид (т):</label>
-                    <input defaultValue={data?.oil_E} disabled id="oil_E" />
+                    <label htmlFor="n">Ефективна кількість ЕП:</label>
+                    <input defaultValue={data?.n.toFixed(2)} disabled id="n" />
                 </div>
-            </div>
-            <div className="output">
-                <h2>При спалюванні природного газу</h2>
                 <div>
-                    <label htmlFor="gas_k">
-                        Показник емісії твердих частинок (г/ГДж):
+                    <label htmlFor="Kp">
+                        Розрахунковий коефіцієнт активної потужності:
                     </label>
-                    <input defaultValue={data?.gas_k} disabled id="gas_k" />
+                    <input
+                        defaultValue={data?.Kp.toFixed(2)}
+                        disabled
+                        id="Kp"
+                    />
                 </div>
                 <div>
-                    <label htmlFor="gas_E">Валовий викид (т):</label>
-                    <input defaultValue={data?.gas_E} disabled id="gas_E" />
+                    <label htmlFor="P">
+                        Розрахункове активне навантаження:
+                    </label>
+                    <input defaultValue={data?.P.toFixed(2)} disabled id="P" />
+                </div>
+                <div>
+                    <label htmlFor="Q">
+                        Розрахункове реактивне навантаження:
+                    </label>
+                    <input defaultValue={data?.Q.toFixed(2)} disabled id="Q" />
+                </div>
+                <div>
+                    <label htmlFor="S">Повна потужність:</label>
+                    <input defaultValue={data?.S.toFixed(2)} disabled id="S" />
+                </div>
+                <div>
+                    <label htmlFor="I">Розрахунковий груповий струм:</label>
+                    <input defaultValue={data?.I.toFixed(2)} disabled id="I" />
                 </div>
             </div>
         </div>

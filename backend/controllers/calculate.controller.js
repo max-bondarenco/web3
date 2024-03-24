@@ -1,21 +1,33 @@
 import catchAsync from '../utils/catchAsync.js'
-import { COAL_K, COAL_Q, GAS_K, OIL_K, OIL_Q } from '../utils/constants.js'
 
 export const calculate = catchAsync(async (req, res, next) => {
-    const { coal: coal_B, oil: oil_B, gas: gas_B } = req.body
+    let sum_nxP = 0,
+        sum_nxPxK = 0,
+        sum_nxPxP = 0,
+        sum_nxPxKxtg = 0,
+        U
+    const result = { Is: {} }
 
-    const coal_E = (10 ** -6 * COAL_K * coal_B * COAL_Q).toFixed(2) * 1
-    const oil_E = (10 ** -6 * OIL_K * oil_B * OIL_Q).toFixed(2) * 1
-
-    res.status(200).json({
-        status: 'success',
-        data: {
-            coal_k: COAL_K.toFixed(2) * 1,
-            coal_E,
-            oil_k: OIL_K.toFixed(2) * 1,
-            oil_E,
-            gas_k: GAS_K.toFixed(2) * 1,
-            gas_E: 0,
-        },
+    Object.keys(req.body).forEach((key) => {
+        const EP = req.body[key]
+        if (!U) U = EP.U
+        sum_nxP += EP.n * EP.P
+        sum_nxPxK += EP.n * EP.P * EP.K
+        sum_nxPxP += EP.n * EP.P * EP.P
+        sum_nxPxKxtg += EP.n * EP.P * EP.K * EP.tg
+        result.Is[key] = (EP.n * EP.P) / (Math.sqrt(3) * EP.U * EP.cos * EP.kkd)
     })
+
+    result.Ku = sum_nxPxK / sum_nxP
+    result.n = (sum_nxP * sum_nxP) / sum_nxPxP
+    result.Kp = 1.25
+    result.P = sum_nxPxK * result.Kp
+    result.Q =
+        result.n > 10
+            ? sum_nxPxKxtg * result.Kp
+            : sum_nxPxKxtg * 1.1 * result.Kp
+    result.S = Math.sqrt(result.P * result.P + result.Q * result.Q)
+    result.I = result.P / U
+
+    res.status(200).json({ status: 'success', data: result })
 })
